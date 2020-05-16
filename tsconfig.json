@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "outDir": "dist",
+    "target": "ES6",
+    "isolatedModules": false,
+    "noEmit": false,
+    "baseUrl": ".",
+    "moduleResolution": "node",
+    "strict": true,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
+  },
+  "lib" : [
+	  "ESNext.AsyncIterable"
+  ],
+  "include": [
+    "generated/**/*.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.json"
+  ]
+}
