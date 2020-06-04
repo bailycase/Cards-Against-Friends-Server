@@ -8,16 +8,16 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: caf-frontend
+      app: caf-server
   template:
     metadata:
       labels:
-        app: caf-frontend
+        app: caf-server
     spec:
       containers:
-        - name: caf-frontend
+        - name: caf-server
           imagePullPolicy: Always
-          image: gcr.io/cards-against-friends-277922/caf-server:v
+          image: gcr.io/cards-against-friends-277922/caf-server:v1.0.0
           ports:
             - containerPort: 3000
               name: 3000tcp
