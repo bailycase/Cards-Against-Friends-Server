@@ -22,7 +22,7 @@ const resolvers = mergeResolvers([
 ]);
 
 const options = {
-  host: "localhost",
+  host: "10.15.246.162",
   port: 6379,
   retryStrategy: (times: any) => {
     return Math.min(times * 50, 2000);
@@ -38,7 +38,7 @@ const port = 3000;
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req, res }) => ({ req, res, pubsub: pubsub, redis: redis, mongo: getDb  }),
+  context: ({ req, res }) => ({ req, res, pubsub: pubsub, redis: redis, mongo: getDb }),
 });
 const app = express();
 
@@ -47,7 +47,7 @@ server.applyMiddleware({ app });
 const httpServer = http.createServer(app);
 server.installSubscriptionHandlers(httpServer);
 httpServer.listen(port, () => {
-   buildView();
+  buildView();
   console.log(
     `🚀 Server ready at http://localhost:${port}${server.graphqlPath}`
   );
