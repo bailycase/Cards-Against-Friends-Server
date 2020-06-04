@@ -46,6 +46,7 @@
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-import-resolver-parcel": "^1.10.4",
     "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-security": "^1.4.0"
+    "eslint-plugin-security": "^1.4.0",
+    "semantic-release": "^17.0.8"
   }
 }
