@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -22,3 +23,21 @@ spec:
             - containerPort: 3000
               name: 3000tcp
               protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: caf-server-graphql
+spec:
+  externalTrafficPolicy: Cluster
+  ports:
+    - nodePort: 31083
+      port: 3000
+      protocol: TCP
+      targetPort: 3000
+  selector:
+    app: caf-server-graphql
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}
