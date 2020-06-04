@@ -1,0 +1,1 @@
+{"version":3,"file":"getDb.js","sourceRoot":"","sources":["../../../src/utils/getDb.ts"],"names":[],"mappings":";;;;;;;;;;;;;;AAAA,8DAA4C;AAE5C,IAAI,UAAe,CAAA;AACnB,MAAM,KAAK,GAAG,GAAS,EAAE;IACvB,IAAI,CAAC,UAAU,EAAE;QACf,UAAU,GAAG,MAAM,oBAAgB,EAAE,CAAC;KACvC;IACD,OAAO,UAAU,CAAC,EAAE,CAAC,KAAK,CAAC,CAAC;AAC9B,CAAC,CAAA,CAAC;AACF,kBAAe,KAAK,CAAC"}

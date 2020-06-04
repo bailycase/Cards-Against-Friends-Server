@@ -1,7 +1,7 @@
-import bcrypt from "bcrypt";
-import getDb from "../utils/getDb";
-import updateUser from './requests/updateUser'
-import { MutationUpdateUserArgs } from "__generated__/resolver-types";
+import bcrypt from 'bcrypt';
+import { MutationUpdateUserArgs } from '../../__generated__/resolver-types';
+import getDb from '../utils/getDb';
+import updateUser from './requests/updateUser';
 
 interface UserOperationArgs {
   email: string;
@@ -10,19 +10,19 @@ interface UserOperationArgs {
 
 const getCollection = async () => {
   const db = await getDb();
-  return db.collection("users");
+  return db.collection('users');
 };
 const registerUser = async ({ email, password }: UserOperationArgs) => {
   const collection = await getCollection();
   const salt = bcrypt.hashSync(password, 10);
   const doesUserExist = !!(await collection.findOne({ email }));
   if (doesUserExist) {
-    return new Error("There is already an account with that email registered");
+    return new Error('There is already an account with that email registered');
   }
   const { ops } = await collection.insertOne({
     email,
     salt,
-  })
+  });
   return {
     user: { ...ops[0] },
   };
@@ -51,13 +51,13 @@ const getCurrentGame = async ({ name }: any) => {
 };
 const resolvers = {
   Query: {
-    //user: (_, args) => getUser(args),
+    // user: (_, args) => getUser(args),
     getCurrentGame: (_: void, args: any) => getCurrentGame(args),
   },
   Mutation: {
     loginUser: (_: void, args: UserOperationArgs) => loginUser(args),
     registerUser: (_: void, args: UserOperationArgs) => registerUser(args),
-    updateUser: (_: void, args: MutationUpdateUserArgs, { mongo }: any) => updateUser({ ...args }, mongo)
+    updateUser: (_: void, args: MutationUpdateUserArgs, { mongo }: any) => updateUser({ ...args }, mongo),
   },
 };
 

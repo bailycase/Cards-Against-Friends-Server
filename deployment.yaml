@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: caf-server
+  labels:
+    app: caf-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: caf-frontend
+  template:
+    metadata:
+      labels:
+        app: caf-frontend
+    spec:
+      containers:
+        - name: caf-frontend
+          imagePullPolicy: Always
+          image: gcr.io/cards-against-friends-277922/caf-server:v
+          ports:
+            - containerPort: 3000
+              name: 3000tcp
+              protocol: TCP

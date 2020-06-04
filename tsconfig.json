@@ -20,13 +20,7 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
   },
-  "lib" : [
-	  "ESNext.AsyncIterable"
-  ],
-  "include": [
-    "generated/**/*.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.json"
-  ]
+  "lib": ["ESNext.AsyncIterable"],
+  "include": ["generated/**/*.d.ts", "**/*.ts", "**/*.tsx", "**/*.json"],
+  "exclude": ["node_modules", "**/*.test.ts"]
 }

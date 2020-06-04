@@ -99,6 +99,7 @@ export type Mutation = {
   startGame?: Maybe<GameDetails>;
   stopGame?: Maybe<GameDetails>;
   selectCard: Scalars['Boolean'];
+  selectWinningCard: Scalars['Boolean'];
 };
 
 
@@ -155,13 +156,21 @@ export type MutationSelectCardArgs = {
   card: Scalars['String'];
 };
 
+
+export type MutationSelectWinningCardArgs = {
+  gameId: Scalars['String'];
+  name: Scalars['String'];
+  card: Scalars['String'];
+  winningUser: Scalars['String'];
+};
+
 export type Game = {
    __typename?: 'Game';
   gameId?: Maybe<Scalars['String']>;
   userJoined?: Maybe<UserJoin>;
   userLeft?: Maybe<UserLeft>;
   host?: Maybe<Scalars['String']>;
-  users?: Maybe<Array<Maybe<GameUsers>>>;
+  users: Array<GameUsers>;
 };
 
 export type GamePlayers = {
@@ -172,6 +181,7 @@ export type GamePlayers = {
   userJoined?: Maybe<UserJoin>;
   userLeft?: Maybe<UserLeft>;
   user?: Maybe<Scalars['String']>;
+  users?: Maybe<Array<Maybe<GamePlayer>>>;
 };
 
 export type GameUsers = {
@@ -201,7 +211,7 @@ export type UserLeft = {
 export type CardsToJudge = {
    __typename?: 'CardsToJudge';
   name: Scalars['String'];
-  card: Scalars['String'];
+  cardName: Scalars['String'];
 };
 
 export type GameDetails = {
@@ -444,6 +454,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   startGame?: Resolver<Maybe<ResolversTypes['GameDetails']>, ParentType, ContextType, RequireFields<MutationStartGameArgs, 'gameId' | 'name'>>,
   stopGame?: Resolver<Maybe<ResolversTypes['GameDetails']>, ParentType, ContextType, RequireFields<MutationStopGameArgs, 'gameId' | 'name'>>,
   selectCard?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSelectCardArgs, 'gameId' | 'name' | 'card'>>,
+  selectWinningCard?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationSelectWinningCardArgs, 'gameId' | 'name' | 'card' | 'winningUser'>>,
 };
 
 export type GameResolvers<ContextType = any, ParentType extends ResolversParentTypes['Game'] = ResolversParentTypes['Game']> = {
@@ -451,7 +462,7 @@ export type GameResolvers<ContextType = any, ParentType extends ResolversParentT
   userJoined?: Resolver<Maybe<ResolversTypes['UserJoin']>, ParentType, ContextType>,
   userLeft?: Resolver<Maybe<ResolversTypes['UserLeft']>, ParentType, ContextType>,
   host?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
-  users?: Resolver<Maybe<Array<Maybe<ResolversTypes['GameUsers']>>>, ParentType, ContextType>,
+  users?: Resolver<Array<ResolversTypes['GameUsers']>, ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
@@ -462,6 +473,7 @@ export type GamePlayersResolvers<ContextType = any, ParentType extends Resolvers
   userJoined?: Resolver<Maybe<ResolversTypes['UserJoin']>, ParentType, ContextType>,
   userLeft?: Resolver<Maybe<ResolversTypes['UserLeft']>, ParentType, ContextType>,
   user?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>,
+  users?: Resolver<Maybe<Array<Maybe<ResolversTypes['GamePlayer']>>>, ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 
@@ -491,7 +503,7 @@ export type UserLeftResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type CardsToJudgeResolvers<ContextType = any, ParentType extends ResolversParentTypes['CardsToJudge'] = ResolversParentTypes['CardsToJudge']> = {
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
-  card?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
+  cardName?: Resolver<ResolversTypes['String'], ParentType, ContextType>,
   __isTypeOf?: isTypeOfResolverFn<ParentType>,
 };
 

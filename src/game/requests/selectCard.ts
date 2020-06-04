@@ -33,9 +33,8 @@ const selectCard = async (
   // If all users have selected a card, push the game to the judging round
   if (!allSelected.includes(false)) {
     const usersCards = currentGame.value.users.filter((user: GamePlayer) => user.name !== cardCzar).map((user: GamePlayer) => {
-      return { name: user.name, card: user.cardSelected }
+      return { name: user.name, cardName: user.cardSelected }
     })
-    console.log(usersCards)
     pubsub.publish(`${gameId}_DETAILS`, {
       gameDetails: {
         event: "ROUND_UPDATE",

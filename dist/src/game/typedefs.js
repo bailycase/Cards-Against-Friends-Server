@@ -1,6 +1,7 @@
-import { gql } from 'apollo-server';
-
-const typeDefs = gql`
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const apollo_server_1 = require("apollo-server");
+const typeDefs = apollo_server_1.gql `
   type Game {
     gameId: String
     userJoined: UserJoin
@@ -71,5 +72,5 @@ const typeDefs = gql`
     cardsDealt(gameId: String!): CardsDealt
   }
 `;
-
-export default typeDefs;
+exports.default = typeDefs;
+//# sourceMappingURL=typedefs.js.map

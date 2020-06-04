@@ -12,8 +12,8 @@ const stopGame = async (args: any, pubsub: any, mongo: any) => {
             {
               $eq: ["$host", name],
             },
-            true,
             false,
+            true,
           ],
         },
         "users.cardSelected": null
@@ -28,7 +28,6 @@ const stopGame = async (args: any, pubsub: any, mongo: any) => {
   }
   const updatedGame = await gameCollection.findOne({ _id: game.value._id });
   const { cardCzar, running, gameId: id } = updatedGame;
-  console.log(updatedGame)
   pubsub.publish(`${gameId}_DETAILS`, {
     gameDetails: {
       gameId: id,

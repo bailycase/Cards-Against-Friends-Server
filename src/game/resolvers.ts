@@ -7,6 +7,7 @@ import getGame from "./requests/getGame";
 import startGame from "./requests/startGame";
 import stopGame from "./requests/stopGame";
 import selectCard from './requests/selectCard'
+import selectWinningCard from './requests/selectWinningCard'
 
 const resolvers = {
   Query: {
@@ -26,7 +27,8 @@ const resolvers = {
       startGame(args, pubsub, mongo),
     stopGame: (_: void, args: any, { pubsub, mongo }: any) =>
       stopGame(args, pubsub, mongo),
-      selectCard: (_: void, args: any, {pubsub, mongo}: any) => selectCard(args, pubsub, mongo)
+    selectCard: (_: void, args: any, { pubsub, mongo }: any) => selectCard(args, pubsub, mongo),
+    selectWinningCard: (_: void, args: any, { pubsub, mongo }: any) => selectWinningCard(args, pubsub, mongo)
   },
   Subscription: {
     game: {
