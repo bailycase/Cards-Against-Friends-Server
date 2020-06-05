@@ -46,10 +46,12 @@ const app = express();
 
 server.applyMiddleware({ app });
 
+const key = fs.readFileSync('./ssl/caf.key')
+const cert = fs.readFileSync('./ssl/caf.cert')
 const httpServer = https.createServer(
   {
-    key: fs.readFileSync(`./ssl/caf.key`),
-    cert: fs.readFileSync(`./ssl/caf.crt`)
+    key,
+    cert
   },
   app
 )

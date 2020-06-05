@@ -14,4 +14,6 @@ COPY [".", "./"]
 
 RUN yarn build
 
+COPY ["ssl", "dist/ssl"]
+
 CMD ["node", "dist/index.js"]

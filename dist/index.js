@@ -4,8 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const apollo_server_express_1 = require("apollo-server-express");
+const fs_1 = __importDefault(require("fs"));
 require("reflect-metadata");
-const http_1 = __importDefault(require("http"));
+const https_1 = __importDefault(require("https"));
 const merge_graphql_schemas_1 = require("merge-graphql-schemas");
 const index_1 = require("./src/cards/index");
 const index_2 = require("./src/users/index");
@@ -26,7 +27,7 @@ const resolvers = merge_graphql_schemas_1.mergeResolvers([
     index_3.gameModule.resolvers,
 ]);
 const options = {
-    host: "localhost",
+    host: "10.15.246.162",
     port: 6379,
     retryStrategy: (times) => {
         return Math.min(times * 50, 2000);
@@ -45,7 +46,12 @@ const server = new apollo_server_express_1.ApolloServer({
 });
 const app = express_1.default();
 server.applyMiddleware({ app });
-const httpServer = http_1.default.createServer(app);
+const key = fs_1.default.readFileSync('./ssl/caf.key');
+const cert = fs_1.default.readFileSync('./ssl/cert.key');
+const httpServer = https_1.default.createServer({
+    key,
+    cert
+}, app);
 server.installSubscriptionHandlers(httpServer);
 httpServer.listen(port, () => {
     viewBuilder_1.buildView();
