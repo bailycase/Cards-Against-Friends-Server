@@ -16,6 +16,14 @@ const ioredis_1 = __importDefault(require("ioredis"));
 const express_1 = __importDefault(require("express"));
 const getDb_1 = __importDefault(require("./src/utils/getDb"));
 const viewBuilder_1 = require("./viewBuilder");
+const config_1 = require("./config");
+const dotenv_1 = require("dotenv");
+const { NODE_ENV } = process.env;
+const isProd = NODE_ENV === 'production';
+dotenv_1.config({
+    path: isProd ? './secrets/.env.prod' : './secrets/.env.dev'
+});
+console.log(process.env);
 const typeDefs = merge_graphql_schemas_1.mergeTypes([
     index_1.cardsModule.typeDefs,
     index_2.userModule.typeDefs,
@@ -26,28 +34,22 @@ const resolvers = merge_graphql_schemas_1.mergeResolvers([
     index_2.userModule.resolvers,
     index_3.gameModule.resolvers,
 ]);
-const options = {
-    host: "10.15.246.162",
-    port: 6379,
-    retryStrategy: (times) => {
-        return Math.min(times * 50, 2000);
-    },
-};
-const redis = new ioredis_1.default(options);
+const redis = new ioredis_1.default(config_1.redisConfig);
 const pubsub = new graphql_redis_subscriptions_1.RedisPubSub({
-    publisher: new ioredis_1.default(options),
-    subscriber: new ioredis_1.default(options),
+    publisher: new ioredis_1.default(config_1.redisConfig),
+    subscriber: new ioredis_1.default(config_1.redisConfig),
 });
 const port = 3000;
 const server = new apollo_server_express_1.ApolloServer({
     typeDefs,
     resolvers,
     context: ({ req, res }) => ({ req, res, pubsub: pubsub, redis: redis, mongo: getDb_1.default }),
+    subscriptions: { path: '/subscriptions' }
 });
 const app = express_1.default();
 server.applyMiddleware({ app });
 const key = fs_1.default.readFileSync('./ssl/caf.key');
-const cert = fs_1.default.readFileSync('./ssl/cert.key');
+const cert = fs_1.default.readFileSync('./ssl/caf.cert');
 const httpServer = https_1.default.createServer({
     key,
     cert

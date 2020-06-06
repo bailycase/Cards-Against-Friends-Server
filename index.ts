@@ -11,6 +11,19 @@ import Redis from "ioredis";
 import express from "express";
 import getDb from "./src/utils/getDb";
 import { buildView } from './viewBuilder'
+import { redisConfig } from './config'
+import { config } from 'dotenv'
+
+const { NODE_ENV } = process.env
+
+const isProd = NODE_ENV === 'production'
+
+config({
+  path: isProd ? './secrets/.env.prod' : './secrets/.env.dev'
+})
+
+console.log(process.env)
+
 const typeDefs = mergeTypes([
   cardsModule.typeDefs,
   userModule.typeDefs,
@@ -23,17 +36,11 @@ const resolvers = mergeResolvers([
 ]);
 
 
-const options = {
-  host: "10.15.246.162",
-  port: 6379,
-  retryStrategy: (times: any) => {
-    return Math.min(times * 50, 2000);
-  },
-};
-const redis = new Redis(options);
+
+const redis = new Redis(redisConfig);
 const pubsub = new RedisPubSub({
-  publisher: new Redis(options),
-  subscriber: new Redis(options),
+  publisher: new Redis(redisConfig),
+  subscriber: new Redis(redisConfig),
 });
 const port = 3000;
 

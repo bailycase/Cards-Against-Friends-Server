@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongodb_1 = __importDefault(require("mongodb"));
-const config_1 = __importDefault(require("../../config"));
+const config_1 = require("../../config");
 exports.default = () => new Promise((resolve, reject) => {
-    mongodb_1.default.connect(config_1.default.mongo.url, config_1.default.mongo.options, (err, db) => {
+    mongodb_1.default.connect(config_1.mongoConfig.url, config_1.mongoConfig.options, (err, db) => {
         if (err) {
             reject(err);
             return;
