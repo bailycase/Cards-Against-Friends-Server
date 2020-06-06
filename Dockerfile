@@ -16,6 +16,6 @@ RUN yarn build
 
 COPY ["ssl", "dist/ssl"]
 
-COPY ["secrets", "dist/secrets"]
+RUN ls
 
 CMD ["yarn", "run:prod"]
