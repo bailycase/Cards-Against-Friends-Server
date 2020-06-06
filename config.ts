@@ -5,7 +5,7 @@ const mongoConfig = {
 }
 
 const redisConfig = {
-  host: process.env.REDIS_IP,
+  host: `${process.env.REDIS_IP}`,
   port: 6379,
   retryStrategy: (times: any) => {
     return Math.min(times * 50, 2000);
