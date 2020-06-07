@@ -28,6 +28,7 @@ const resolvers = merge_graphql_schemas_1.mergeResolvers([
     index_3.gameModule.resolvers,
 ]);
 const redis = new ioredis_1.default(config_1.redisConfig);
+console.log(redis, config_1.redisConfig);
 const pubsub = new graphql_redis_subscriptions_1.RedisPubSub({
     publisher: new ioredis_1.default(config_1.redisConfig),
     subscriber: new ioredis_1.default(config_1.redisConfig),

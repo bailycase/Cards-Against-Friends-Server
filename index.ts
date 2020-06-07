@@ -27,6 +27,11 @@ const resolvers = mergeResolvers([
 
 
 const redis = new Redis(redisConfig);
+
+redis.on("error", function (error) {
+  console.error({ error, redisConfig });
+});
+
 const pubsub = new RedisPubSub({
   publisher: new Redis(redisConfig),
   subscriber: new Redis(redisConfig),
