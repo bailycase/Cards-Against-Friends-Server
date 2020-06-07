@@ -1,5 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const dotenv_1 = require("dotenv");
+const { NODE_ENV } = process.env;
+const isProd = NODE_ENV === 'production';
+dotenv_1.config({
+    path: isProd ? './secrets/.env.prod' : './secrets/.env.dev'
+});
 const mongoConfig = {
     url: `mongodb://${process.env.MONGO_IP}:27017`,
     options: { useUnifiedTopology: true },

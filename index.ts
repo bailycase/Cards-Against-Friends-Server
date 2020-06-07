@@ -12,17 +12,6 @@ import express from "express";
 import getDb from "./src/utils/getDb";
 import { buildView } from './viewBuilder'
 import { redisConfig } from './config'
-import { config } from 'dotenv'
-
-const { NODE_ENV } = process.env
-
-const isProd = NODE_ENV === 'production'
-
-config({
-  path: isProd ? './secrets/.env.prod' : './secrets/.env.dev'
-})
-
-console.log(process.env)
 
 const typeDefs = mergeTypes([
   cardsModule.typeDefs,

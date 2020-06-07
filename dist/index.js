@@ -17,13 +17,6 @@ const express_1 = __importDefault(require("express"));
 const getDb_1 = __importDefault(require("./src/utils/getDb"));
 const viewBuilder_1 = require("./viewBuilder");
 const config_1 = require("./config");
-const dotenv_1 = require("dotenv");
-const { NODE_ENV } = process.env;
-const isProd = NODE_ENV === 'production';
-dotenv_1.config({
-    path: isProd ? './secrets/.env.prod' : './secrets/.env.dev'
-});
-console.log(process.env);
 const typeDefs = merge_graphql_schemas_1.mergeTypes([
     index_1.cardsModule.typeDefs,
     index_2.userModule.typeDefs,
