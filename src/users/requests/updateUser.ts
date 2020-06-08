@@ -5,7 +5,7 @@ const updateUser = async ({ args }: MutationUpdateUserArgs, mongo: any) => {
     const userId = new ObjectID(_id)
     const db = await mongo();
     const userCollection = db.collection("users")
-    const { value: user } = await userCollection.findOneAndUpdate({ _id: userId }, { $set: { name } })
+    const { value: user } = await userCollection.findOneAndUpdate({ _id: userId }, { $set: { name } }, { returnOriginal: false })
     return user
 }
 

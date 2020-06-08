@@ -8,12 +8,12 @@ const selectWinningCard = async (
     const { name, gameId, winningUser } = args
     const db = await mongo()
     const gameCollection = db.collection("game")
+    const cardCollection = db.collection("card-sets");
     // Check if the user requesting is the cardCzar
     const currentGame = await gameCollection.findOne(
         { gameId, "cardCzar": name },
     )
 
-    console.log(gameId, name)
     const nextCardCzar = currentGame.users.filter((user: any) => user.name !== currentGame.cardCzar)
     const clearSelectedCardsAgg = [
         {
@@ -22,11 +22,19 @@ const selectWinningCard = async (
             }
         }
     ]
-    // Give the winning player a point
+    // Give the winning player a point and change the black card
     if (currentGame && currentGame.cardCzar === name) {
+        const randomInt = (limiter: number) => Math.floor(Math.random() * limiter);
+        const numberOfCardsets = await cardCollection.countDocuments();
+        const deck = await cardCollection
+            .find()
+            .limit(1)
+            .skip(randomInt(numberOfCardsets))
+            .next();
+        const blackCard = deck.blackCards[randomInt(deck.blackCards.length)].text;
         await gameCollection.findOneAndUpdate(
             { gameId, "users.name": winningUser, cardCzar: name },
-            { $inc: { "users.$.points": 1 }, $set: { cardCzar: nextCardCzar[0].name } },
+            { $inc: { "users.$.points": 1 }, $set: { cardCzar: nextCardCzar[0].name, blackCard }, },
             { returnOriginal: false }
         )
         const updatedGame = await gameCollection.findOneAndUpdate({ gameId }, clearSelectedCardsAgg)
