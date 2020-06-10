@@ -14,7 +14,7 @@ const selectWinningCard = async (
         { gameId, "cardCzar": name },
     )
 
-    const nextCardCzar = currentGame.users.filter((user: any) => user.name !== currentGame.cardCzar)
+    // const nextCardCzar = currentGame.users.filter((user: any) => user.name !== currentGame.cardCzar)
     const clearSelectedCardsAgg = [
         {
             $set: {
@@ -34,7 +34,7 @@ const selectWinningCard = async (
         const blackCard = deck.blackCards[randomInt(deck.blackCards.length)].text;
         await gameCollection.findOneAndUpdate(
             { gameId, "users.name": winningUser, cardCzar: name },
-            { $inc: { "users.$.points": 1 }, $set: { cardCzar: nextCardCzar[0].name, blackCard }, },
+            { $inc: { "users.$.points": 1 }, $set: { cardCzar: winningUser, blackCard }, },
             { returnOriginal: false }
         )
         const updatedGame = await gameCollection.findOneAndUpdate({ gameId }, clearSelectedCardsAgg)

@@ -23,4 +23,4 @@ const redisConfig = {
 }
 
 
-export { redisConfig, mongoConfig }
+export { redisConfig, mongoConfig, isProd }

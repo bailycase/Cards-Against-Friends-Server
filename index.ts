@@ -1,7 +1,8 @@
 import { ApolloServer } from "apollo-server-express";
 import fs from 'fs'
 import "reflect-metadata";
-import https from "https";
+import https, { Server } from "https";
+import http from 'http'
 import { mergeTypes, mergeResolvers } from "merge-graphql-schemas";
 import { cardsModule } from "./src/cards/index";
 import { userModule } from "./src/users/index";
@@ -11,7 +12,7 @@ import Redis from "ioredis";
 import express from "express";
 import getDb from "./src/utils/getDb";
 import { buildView } from './viewBuilder'
-import { redisConfig } from './config'
+import { redisConfig, isProd } from './config'
 
 const typeDefs = mergeTypes([
   cardsModule.typeDefs,
@@ -23,8 +24,6 @@ const resolvers = mergeResolvers([
   userModule.resolvers,
   gameModule.resolvers,
 ]);
-
-
 
 const redis = new Redis(redisConfig);
 
@@ -50,14 +49,23 @@ server.applyMiddleware({ app });
 
 const key = fs.readFileSync('./ssl/caf.key')
 const cert = fs.readFileSync('./ssl/caf.cert')
-const httpServer = https.createServer(
-  {
-    key,
-    cert
-  },
-  app
-)
+let httpServer: Server | http.Server
+
+if (isProd) {
+  httpServer = https.createServer(
+    {
+      key,
+      cert
+    },
+    app
+  )
+}
+else {
+  httpServer = http.createServer(app)
+}
+
 server.installSubscriptionHandlers(httpServer);
+
 httpServer.listen(port, () => {
   buildView();
   console.log(
